@@ -1,6 +1,6 @@
 import { just } from 'most'
 import { curry } from 'ramda'
-// import { CalendarHeader$ } from './calendar_header/CalendarHeader'
+import { CalendarHeader } from './calendar_header/CalendarHeader'
 // import { Months$ } from './months/Months'
 import styles from './styles.scss'
 import MonthsModel from './../../models/months_model'
@@ -49,8 +49,22 @@ import { div } from '@motorcycle/dom'
 //   )
 // }
 
-const Calendar = (DOM, utils) => {
-  return { view$: just(true).map(() => div()) }
+const render = (calendarHeaderVnode) => 
+  div(`.${styles.calendar}`, [calendarHeaderVnode])
+
+const view = (calendarHeader) => calendarHeader.view$.map(render)
+
+const Calendar = ({ sources, utils }) => {
+  const focusMonthModel = FocusMonthModel()
+  const monthsModel = MonthsModel()
+  
+  const calendarHeader = CalendarHeader({ 
+    sources, 
+    utils, 
+    models: { focusMonthModel, monthsModel }
+  })
+  
+  return { view$: view(calendarHeader) }
 }
 
 export { Calendar }

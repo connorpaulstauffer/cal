@@ -5,7 +5,7 @@ import { App } from './components/app/App'
 const rootContainer = document.getElementById('appContainer')
 const domComponent = makeDomComponent(rootContainer, {})
 
-const main = (sources) => ({ view$: App(sources).view$ })
+const main = (sources) => ({ view$: App({ sources }).view$ })
 
 const effects = (sinks) => ({ DOM: domComponent(sinks) })
 

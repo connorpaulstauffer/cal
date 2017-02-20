@@ -8,11 +8,11 @@ const render = (calendarVnode) => div(`.${styles.app}`, [calendarVnode])
 
 const view = (calendar) => calendar.view$.map(render)
 
-const App = (sources) => {
+const App = ({ sources }) => {
   const animFrame$ = createAnimFrame$()
   const scrollTop$ = createScrollTop$(animFrame$)
   
-  const calendar = Calendar(sources.DOM, { animFrame$, scrollTop$ })
+  const calendar = Calendar({ sources, utils: { animFrame$, scrollTop$ } })
   
   return { view$: view(calendar)  }
 }
