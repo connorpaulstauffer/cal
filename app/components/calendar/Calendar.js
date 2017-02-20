@@ -1,7 +1,7 @@
 import { just } from 'most'
 import { curry } from 'ramda'
 import { CalendarHeader } from './calendar_header/CalendarHeader'
-// import { Months$ } from './months/Months'
+import { Months } from './months/Months'
 import styles from './styles.scss'
 import MonthsModel from './../../models/months_model'
 import FocusMonthModel from './../../models/focus_month_model'
@@ -49,22 +49,24 @@ import { div } from '@motorcycle/dom'
 //   )
 // }
 
-const render = (calendarHeaderVnode) => 
-  div(`.${styles.calendar}`, [calendarHeaderVnode])
+const render = (calendarHeaderVnode, monthsVnode) => 
+  div(`.${styles.calendar}`, [calendarHeaderVnode, monthsVnode])
 
-const view = (calendarHeader) => calendarHeader.view$.map(render)
+const view = (calendarHeader, months) => 
+  calendarHeader.view$.combine(render, months.view$)
 
 const Calendar = ({ sources, utils }) => {
-  const focusMonthModel = FocusMonthModel()
-  const monthsModel = MonthsModel()
+  const models = { 
+    focusMonthModel: FocusMonthModel(), 
+    monthsModel: MonthsModel() 
+  }
   
-  const calendarHeader = CalendarHeader({ 
-    sources, 
-    utils, 
-    models: { focusMonthModel, monthsModel }
-  })
+  const childProps = { sources, utils, models }
   
-  return { view$: view(calendarHeader) }
+  const calendarHeader = CalendarHeader(childProps)
+  const months = Months(childProps)
+  
+  return { view$: view(calendarHeader, months) }
 }
 
 export { Calendar }

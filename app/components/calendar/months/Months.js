@@ -1,22 +1,21 @@
 import { Month } from './month/Month'
 import styles from './styles.scss'
 import { curry } from 'ramda'
+import { div } from '@motorcycle/dom'
 
-const Months = ({ months, focusMonth, models }) =>
-  <div className={ styles.months }>
-    { 
-      months.map(month => 
-        <Month month={ month } focusMonth={ focusMonth } models={ models } />
-      ) 
-    }
-  </div>
+const render = (monthVnodes) => div(`.${styles.months}`, monthVnodes)
 
+const view = (monthVnodes$) => monthVnodes$.map(render)
 
-const init = (models, months, focusMonth) => 
-  <Months months={ months } focusMonth={ focusMonth } models={ models } />
+const Months = ({ models }) => {
+  const monthVnodes$ = models.monthsModel.value$
+    .combine(
+      (months, focusMonth) => 
+        months.map(month => Month({ models, month, focusMonth }).view),
+      models.focusMonthModel.value$
+    )
+  
+  return { view$: view(monthVnodes$) }
+}
 
-const Months$ = (models) => 
-  models.monthsModel.value$
-    .combine(curry(init)(models), models.focusMonthModel.value$)
-
-export { Months$ }
+export { Months }

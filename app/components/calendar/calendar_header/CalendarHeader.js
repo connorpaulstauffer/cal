@@ -7,7 +7,7 @@ const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 const render = (focusMonth) =>
   div(`.${styles.calendarHeader}`, [
     h2(`.${styles.header}`, [format(focusMonth.value, 'MMMM YYYY')]),
-    ol(`.${styles.days}`, DAYS.map((day) => li(`.${styles.day}`, [day])))
+    ol(`.${styles.days}`, DAYS.map(day => li(`.${styles.day}`, [day])))
   ])
 
 const view = (focusMonthModel) => focusMonthModel.value$.map(render)

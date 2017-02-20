@@ -1,7 +1,6 @@
-// import { format, getDate } from 'date-fns'
-// import styles from './styles.scss'
-// import { curry , __} from 'ramda'
-// import { Component } from 'inferno-component'
+import { format, getDate } from 'date-fns'
+import styles from './styles.scss'
+import { div, h4, span, ol, li } from '@motorcycle/dom'
 
 // const setScroll = (domEl) => {
 //   window.scroll(0, domEl.offsetTop - 66)
@@ -77,4 +76,23 @@
 // }
 // 
 //   
-// export { Month }
+
+const render = (month, focusMonth) =>
+  div(`.${styles.month}`, [
+    h4(`.${styles.header}`, [
+      span('.month', [format(month.value, 'MMMM ')]),
+      span('.year', [format(month.value, 'YYYY')]),
+    ]),
+    ol(`.${styles.days}`, 
+      month.days.map(
+        day => li(`.${styles.day}`, [`${getDate(day.value)}`])
+      )
+    )
+  ])
+
+const Month = ({ month, focusMonth, models }) => {
+  console.log(month)
+  return { view: render(month, focusMonth) }
+}
+
+export { Month }
