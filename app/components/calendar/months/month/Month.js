@@ -75,10 +75,31 @@ import { div, h4, span, ol, li } from '@motorcycle/dom'
 //   }
 // }
 // 
+//
+
+
+
+const uniqueId = month => `month${month.key}`
+
+const timeoutScroll = (x, y) => setTimeout(() => window.scroll(x, y))
+
+const setScroll = domEl$ => 
+  domEl$.take(1).tap(el => timeoutScroll(0, el.offsetTop)).drain()
 //   
+// const watchScroll = (month, models, utils) =>
+//   true
+// 
+const isFocusMonth = (month, focusMonth) => focusMonth.key === month.key
+// 
+const setScrollIfFocus = (month, focusMonth, domEl$) => 
+  isFocusMonth(month, focusMonth) && setScroll(domEl$)
+//     
+// const watchScrollIfFocus = (month, focusMonth, models, utils) =>
+//   isFocusMonth(month, focusMonth) &&
+//     setTimeout(() => watchScroll(month, models, utils))
 
 const render = (month, focusMonth) =>
-  div(`.${styles.month}`, [
+  div(`.${styles.month}`, { id: uniqueId(month) }, [
     h4(`.${styles.header}`, [
       span('.month', [format(month.value, 'MMMM ')]),
       span('.year', [format(month.value, 'YYYY')]),
@@ -90,8 +111,14 @@ const render = (month, focusMonth) =>
     )
   ])
 
-const Month = ({ month, focusMonth, models }) => {
-  console.log(month)
+const Month = ({ month, focusMonth, models, utils, sources }) => {
+  const domEl$ = sources.DOM.dom
+    .select(`#${uniqueId(month)}`).elements()
+    .filter(els => els && els[0])
+    .map(els => els[0])
+    
+  setScrollIfFocus(month, focusMonth, domEl$)
+  
   return { view: render(month, focusMonth) }
 }
 

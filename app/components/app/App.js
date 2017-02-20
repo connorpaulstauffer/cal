@@ -13,7 +13,7 @@ const App = ({ sources }) => {
   const scrollTop$ = createScrollTop$(animFrame$)
   
   const calendar = Calendar({ sources, utils: { animFrame$, scrollTop$ } })
-  
+
   return { view$: view(calendar)  }
 }
 
