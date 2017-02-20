@@ -116,8 +116,10 @@ const Month = ({ month, focusMonth, models, utils, sources }) => {
     .select(`#${uniqueId(month)}`).elements()
     .filter(els => els && els[0])
     .map(els => els[0])
-    
-  setScrollIfFocus(month, focusMonth, domEl$)
+  
+  utils.firstLoad$
+    .tap(firstLoad => firstLoad && setScrollIfFocus(month, focusMonth, domEl$))
+    .drain()
   
   return { view: render(month, focusMonth) }
 }

@@ -7,11 +7,13 @@ const render = (monthVnodes) => div(`.${styles.months}`, monthVnodes)
 
 const view = (monthVnodes$) => monthVnodes$.map(render)
 
-const Months = ({ models, sources }) => {
+const Months = ({ models, sources, utils }) => {
   const monthVnodes$ = models.monthsModel.value$
     .combine(
       (months, focusMonth) => 
-        months.map(month => Month({ models, month, focusMonth, sources }).view),
+        months.map(month => 
+          Month({ models, month, focusMonth, sources, utils }).view
+        ),
       models.focusMonthModel.value$
     )
   
