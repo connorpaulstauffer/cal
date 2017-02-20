@@ -1,7 +1,7 @@
-import { format, getDate } from 'date-fns'
-import styles from './styles.scss'
-import { curry , __} from 'ramda'
-import { Component } from 'inferno-component'
+// import { format, getDate } from 'date-fns'
+// import styles from './styles.scss'
+// import { curry , __} from 'ramda'
+// import { Component } from 'inferno-component'
 
 // const setScroll = (domEl) => {
 //   window.scroll(0, domEl.offsetTop - 66)
@@ -69,12 +69,12 @@ import { Component } from 'inferno-component'
 //     onComponentWillUpdate={ onUpdate } />
 // }
 
-class Month extends Component {
-  
-  render(props) {
-    
-  }
-}
-
-  
-export { Month }
+// class Month extends Component {
+//   
+//   render(props) {
+//     
+//   }
+// }
+// 
+//   
+// export { Month }

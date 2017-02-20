@@ -1,8 +1,12 @@
-import Inferno from 'inferno'
-import { scan, map } from 'most'
-import { App$ } from './components/app/App'
+import { run } from '@motorcycle/run'
+import { makeDomComponent} from '@motorcycle/dom'
+import { App } from './components/app/App'
 
 const rootContainer = document.getElementById('appContainer')
-const renderer = Inferno.createRenderer()
+const domComponent = makeDomComponent(rootContainer, {})
 
-scan(renderer, rootContainer, App$()).drain()
+const main = (sources) => ({ view$: App(sources).view$ })
+
+const effects = (sinks) => ({ DOM: domComponent(sinks) })
+
+run(main, effects)
